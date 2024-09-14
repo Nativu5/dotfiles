@@ -1,0 +1,64 @@
+### Added by Zinit's installer
+if [[ ! -f $HOME/.local/share/zinit/zinit.git/zinit.zsh ]]; then
+    print -P "%F{33} %F{220}Installing %F{33}ZDHARMA-CONTINUUM%F{220} Initiative Plugin Manager (%F{33}zdharma-continuum/zinit%F{220})…%f"
+    command mkdir -p "$HOME/.local/share/zinit" && command chmod g-rwX "$HOME/.local/share/zinit"
+    command git clone https://github.com/zdharma-continuum/zinit "$HOME/.local/share/zinit/zinit.git" && \
+        print -P "%F{33} %F{34}Installation successful.%f%b" || \
+        print -P "%F{160} The clone has failed.%f%b"
+fi
+
+source "$HOME/.local/share/zinit/zinit.git/zinit.zsh"
+autoload -Uz _zinit
+(( ${+_comps} )) && _comps[zinit]=_zinit
+
+# Load a few important annexes, without Turbo
+# (this is currently required for annexes)
+zinit light-mode for \
+    zdharma-continuum/zinit-annex-as-monitor \
+    zdharma-continuum/zinit-annex-bin-gem-node \
+    zdharma-continuum/zinit-annex-patch-dl \
+    zdharma-continuum/zinit-annex-rust
+
+### End of Zinit's installer chunk
+
+# OMZ theme dependencies
+setopt promptsubst
+zinit snippet OMZL::git.zsh
+zinit snippet OMZP::git
+zinit snippet OMZP::svn
+zinit cdclear -q
+
+# OMZ theme
+zinit snippet OMZL::theme-and-appearance.zsh
+zinit snippet OMZL::async_prompt.zsh
+zinit snippet OMZL::prompt_info_functions.zsh
+zinit snippet OMZT::ys
+
+# OMZ other snippets
+## keybindings
+zinit snippet OMZL::key-bindings.zsh
+## history command enhancing
+zinit snippet OMZL::history.zsh
+## completion style enhancing
+zinit snippet OMZL::completion.zsh
+## colored manpage
+zinit snippet OMZP::colored-man-pages
+
+# Completions
+zinit light zsh-users/zsh-completions
+## To add customized completions, use:
+## zinit creinstall %HOME/.zsh_my_completion
+
+# Plugins
+zinit light zsh-users/zsh-autosuggestions
+zinit ice atinit"zicompinit; zicdreplay" # Required for completion
+zinit light zdharma-continuum/fast-syntax-highlighting
+## NO PLUGINS BELOW THIS LINE ##
+
+# Alias
+alias l="ls --color"
+alias ll="ls -lh --color"
+alias la="ls -alh --color"
+alias rm="rm -i"
+alias cp="cp -i"
+alias mv="mv -i"
