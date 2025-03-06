@@ -7,7 +7,8 @@ if [ -f "${zshrc_public}" ]; then
 fi
 
 # Per-OS configuration
-zshrc_os=${HOME}/.zshrc.$(uname -o)
+os_name=$(uname -s | tr '[:upper:]' '[:lower:]')
+zshrc_os=${HOME}/.zshrc.${os_name}
 if [ -f "${zshrc_os}" ]; then
   source "${zshrc_os}"
 fi

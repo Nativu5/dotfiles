@@ -1,0 +1,26 @@
+# Setup proxy
+setp() {
+    local proxy_endpoint="http://127.0.0.1:17890"
+
+    export http_proxy="$proxy_endpoint"
+    export HTTP_PROXY="$proxy_endpoint"
+    export https_proxy="$proxy_endpoint"
+    export HTTPS_PROXY="$proxy_endpoint"
+    export ALL_PROXY="$proxy_endpoint"
+    export all_proxy="$proxy_endpoint"
+
+    git config --global http.proxy "$proxy_endpoint"
+    git config --global https.proxy "$proxy_endpoint"
+
+    echo "✅ Proxy is set to $proxy_endpoint."
+}
+
+# Disable proxy
+unsetp() {
+    unset http_proxy HTTP_PROXY https_proxy HTTPS_PROXY ALL_PROXY all_proxy
+
+    git config --global --unset http.proxy
+    git config --global --unset https.proxy
+
+    echo "❌ Proxy is disabled. "
+}
