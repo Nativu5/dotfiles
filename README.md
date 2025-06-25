@@ -1,5 +1,5 @@
 # Dotfiles
-This repository contains my personal dotfiles, managed using [GNU Stow](https://www.gnu.org/software/stow/).
+This repository contains my personal dotfiles, managed by [GNU Stow](https://www.gnu.org/software/stow/).
 
 ## Setup
 
