@@ -1,6 +1,8 @@
+export PROXY_ENDPOINT="${PROXY_ENDPOINT:-http://127.0.0.1:17890}"
+
 # Setup proxy
 setp() {
-    local proxy_endpoint="http://127.0.0.1:17890"
+    local proxy_endpoint="${PROXY_ENDPOINT}"
 
     export http_proxy="$proxy_endpoint"
     export HTTP_PROXY="$proxy_endpoint"
