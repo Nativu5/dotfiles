@@ -16,8 +16,7 @@ autoload -Uz _zinit
 zinit light-mode for \
     zdharma-continuum/zinit-annex-as-monitor \
     zdharma-continuum/zinit-annex-bin-gem-node \
-    zdharma-continuum/zinit-annex-patch-dl \
-    zdharma-continuum/zinit-annex-rust
+    zdharma-continuum/zinit-annex-patch-dl
 
 ### End of Zinit's installer chunk
 
@@ -25,7 +24,6 @@ zinit light-mode for \
 setopt promptsubst
 zinit snippet OMZL::git.zsh
 zinit snippet OMZP::git
-zinit snippet OMZP::svn
 zinit cdclear -q
 
 # OMZ theme
@@ -37,6 +35,9 @@ zinit snippet OMZT::ys
 # OMZ other snippets
 ## keybindings
 zinit snippet OMZL::key-bindings.zsh
+## Alt+Left/Right word movement (OMZ only covers Ctrl+arrows)
+bindkey '^[[1;3D' backward-word
+bindkey '^[[1;3C' forward-word
 ## history command enhancing
 zinit snippet OMZL::history.zsh
 ## completion style enhancing
@@ -44,15 +45,21 @@ zinit snippet OMZL::completion.zsh
 ## colored manpage
 zinit snippet OMZP::colored-man-pages
 
-# Completions
-zinit light zsh-users/zsh-completions
+# Completions & plugins (Turbo: loaded right after the first prompt).
+# compinit runs at fast-syntax-highlighting's atinit. With an existing
+# ~/.zcompdump it passes -C (trust the dump, skip the fpath scan); without
+# one it does a full scan to build it — never pass -C on a missing dump, or
+# compinit writes a crippled dump and -C then trusts it forever. After
+# installing new completions run `zinit compinit` (or rm ~/.zcompdump).
 ## To add customized completions, use:
 ## zinit creinstall %HOME/.zsh_my_completion
-
-# Plugins
-zinit light zsh-users/zsh-autosuggestions
-zinit ice atinit"zicompinit; zicdreplay" # Required for completion
-zinit light zdharma-continuum/fast-syntax-highlighting
+zinit wait lucid light-mode for \
+    atinit"[[ -f $HOME/.zcompdump ]] && ZINIT[COMPINIT_OPTS]=-C; zicompinit; zicdreplay" \
+        zdharma-continuum/fast-syntax-highlighting \
+    atload"_zsh_autosuggest_start" \
+        zsh-users/zsh-autosuggestions \
+    blockf atpull"zinit creinstall -q ." \
+        zsh-users/zsh-completions
 ## NO PLUGINS BELOW THIS LINE ##
 
 # Alias
